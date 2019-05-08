@@ -43,6 +43,7 @@ task acceptanceTest(type: Test) {
     classpath = sourceSets.acceptanceTest.runtimeClasspath
     testLogging.showStandardStreams = true
     dependsOn assemble, compileTestJava
+    shouldRunAfter test
     // test data setup
     doFirst {
         javaexec {

@@ -17,4 +17,4 @@ before_install:
     - chromedriver -version
     - #export MOZ_HEADLESS=1
 script:
-  - gradle check
+  - gradle clean test acceptanceTest
