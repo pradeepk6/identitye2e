@@ -10,10 +10,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-configurations {
-    cucumberRuntime.extendsFrom testRuntime
-}
-
 jar {
     baseName = 'identitye2e'
     version = '1.0.0'
@@ -67,14 +63,6 @@ task acceptanceTest(type: Test) {
 
 check {
     dependsOn(acceptanceTest)
-}
-
-configurations {
-    cucumberRuntime.extendsFrom testRuntime
-}
-
-compileTestJava {
-    options.compilerArgs += '-parameters'
 }
 
 dependencies {
