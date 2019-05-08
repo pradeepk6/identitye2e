@@ -35,7 +35,7 @@ task acceptanceTest(type: Test) {
     description = 'Runs acceptance/e2e tests with Cucumber and Selenium Webdriver'
     group = 'verification'
     System.setProperty("browser", "CHROME")
-    System.setProperty("webdriver.chrome.driver", "$projectDir/drivers/chromedriver.exe")
+    System.setProperty("webdriver.chrome.driver", "$projectDir/drivers/chromedriver")
     options {
         systemProperties(System.getProperties())
     }

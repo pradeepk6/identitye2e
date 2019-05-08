@@ -5,8 +5,6 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.File;
-
 public class ChromeDriverManager extends DriverManager {
 
     private ChromeDriverService chService;
@@ -18,7 +16,7 @@ public class ChromeDriverManager extends DriverManager {
             if(System.getProperty("os.name").toLowerCase().startsWith("win")) {
                 String driverSysProperty = System.getProperty("webdriver.chrome.driver");
                 if(!driverSysProperty.endsWith(".exe")) {
-                    System.setProperty("", driverSysProperty+ ".exe");
+                    System.setProperty("webdriver.chrome.driver", driverSysProperty + ".exe");
                 }
             }
             try {
