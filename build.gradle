@@ -1,0 +1,94 @@
+repositories {
+    mavenCentral()
+}
+
+ext {
+    cucumberVersion = '4.3.0'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+configurations {
+    cucumberRuntime.extendsFrom testRuntime
+}
+
+jar {
+    baseName = 'identitye2e'
+    version = '1.0.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+test {
+    useJUnit()
+}
+
+sourceSets {
+    acceptanceTest {
+        java.srcDir file('src/acceptancetest/java')
+        resources.srcDir file('src/acceptancetest/resources')
+        compileClasspath += main.output + test.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+task acceptanceTest(type: Test) {
+    description = 'Runs acceptance/e2e tests with Cucumber and Selenium Webdriver'
+    group = 'verification'
+    System.setProperty("browser", "CHROME")
+    System.setProperty("webdriver.chrome.driver", "$projectDir/drivers/chromedriver.exe")
+    options {
+        systemProperties(System.getProperties())
+    }
+    testClassesDir = sourceSets.acceptanceTest.output.classesDir
+    classpath = sourceSets.acceptanceTest.runtimeClasspath
+    testLogging.showStandardStreams = true
+    dependsOn assemble, compileTestJava
+    // test data setup
+    doFirst {
+        javaexec {
+            main = "utils.TestDataUtils"
+            classpath = sourceSets.acceptanceTest.runtimeClasspath
+            args = ["setup"]
+        }
+    }
+    // test data teardown
+    doLast {
+        javaexec {
+            main = "utils.TestDataUtils"
+            classpath = sourceSets.acceptanceTest.runtimeClasspath
+            args = ["teardown"]
+        }
+    }
+}
+
+check {
+    dependsOn(acceptanceTest)
+}
+
+configurations {
+    cucumberRuntime.extendsFrom testRuntime
+}
+
+compileTestJava {
+    options.compilerArgs += '-parameters'
+}
+
+dependencies {
+    compile 'ch.qos.logback:logback-core:1.2.3'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'org.slf4j:slf4j-api:1.7.26'
+    compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+    compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+
+    testCompile("io.cucumber:cucumber-java:${cucumberVersion}")
+    testCompile("io.cucumber:cucumber-junit:${cucumberVersion}")
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
