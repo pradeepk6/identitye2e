@@ -17,9 +17,8 @@ public class DriverManagerFactory {
                 //driverManager = new FirefoxDriverManager();
                 break;
             default:
-
+                throw new IllegalArgumentException("Wrong driver name : " + type);
         }
         return driverManager;
-
     }
 }

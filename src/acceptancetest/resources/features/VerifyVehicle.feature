@@ -8,4 +8,5 @@ Feature: Get vehicle information from DVLA
     Then I should be able to confirm vehicle details: regNum <regNum>,make <make> and colour <colour>
     Examples:
       |regNum|make|colour|
-||||
+      | bn14 yhl | seat     | silver |
+      | bu67 jxt | Vauxhall | white  |

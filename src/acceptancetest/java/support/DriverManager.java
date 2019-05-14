@@ -1,10 +1,13 @@
 package support;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class DriverManager {
+    private static final Logger log = LoggerFactory.getLogger(DriverManager.class);
 
-    protected WebDriver driver;
+    protected RemoteWebDriver driver;
     protected abstract void startService();
     protected abstract void stopService();
     protected abstract void createDriver();
@@ -14,11 +17,10 @@ public abstract class DriverManager {
             driver.quit();
             driver = null;
         }
-
     }
 
-    public WebDriver getDriver() {
-        if (null == driver) {
+    public RemoteWebDriver getDriver() {
+        if (null == driver || driver.getSessionId() == null) {
             startService();
             createDriver();
         }

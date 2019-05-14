@@ -1,14 +1,9 @@
 package pageobjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import support.World;
 
 
 /**
@@ -17,9 +12,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class Page {
 
     protected WebDriver driver;
+    protected World world;
 
-    public Page(WebDriver driver) {
-        this.driver = driver;
+    public Page(World world) {
+        this.driver = world.driver;
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 

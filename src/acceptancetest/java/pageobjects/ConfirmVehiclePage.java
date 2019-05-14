@@ -1,9 +1,10 @@
 package pageobjects;
 
-import org.openqa.selenium.WebDriver;
+import com.google.inject.Inject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import support.World;
 
 public class ConfirmVehiclePage extends Page {
 
@@ -16,8 +17,9 @@ public class ConfirmVehiclePage extends Page {
     @FindBy(how = How.XPATH, using = "//span[.='Colour']/following-sibling::span[1]")
     public WebElement colour;
 
-    public ConfirmVehiclePage(WebDriver driver) {
-        super(driver);
+    @Inject
+    public ConfirmVehiclePage(World world) {
+        super(world);
     }
 
     public String getRegNum(){

@@ -1,9 +1,10 @@
 package pageobjects;
 
-import org.openqa.selenium.WebDriver;
+import com.google.inject.Inject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import support.World;
 
 public class StartPage extends Page {
 
@@ -12,12 +13,13 @@ public class StartPage extends Page {
     @FindBy(how = How.PARTIAL_LINK_TEXT, using = "Start now")
     public WebElement startNow;
 
-    public StartPage(WebDriver driver) {
-        super(driver);
+    @Inject
+    public StartPage(World world) {
+        super(world);
         visitPage();
     }
 
-    void visitPage() {
+    public void visitPage() {
         driver.get(url);
     }
 

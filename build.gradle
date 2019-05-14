@@ -3,7 +3,7 @@ repositories {
 }
 
 ext {
-    cucumberVersion = '4.3.0'
+    cucumberVersion = '4.3.1'
 }
 
 apply plugin: 'java'
@@ -35,6 +35,8 @@ task acceptanceTest(type: Test) {
     description = 'Runs acceptance/e2e tests with Cucumber and Selenium Webdriver'
     group = 'verification'
     System.setProperty("browser", "CHROME")
+    System.setProperty("headless", "false")
+    System.setProperty("webdriver.chrome.driver", "$projectDir/drivers/chromedriver")
     System.setProperty("webdriver.chrome.driver", "$projectDir/drivers/chromedriver")
     options {
         systemProperties(System.getProperties())
@@ -60,6 +62,13 @@ task acceptanceTest(type: Test) {
             args = ["teardown"]
         }
     }
+    doLast {
+        javaexec {
+            main = "support.WebdriverHooks"
+            classpath = sourceSets.acceptanceTest.runtimeClasspath
+            args = ["driverManager_stopService"]
+        }
+    }
 }
 
 check {
@@ -75,6 +84,8 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
     compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+    compile group: 'io.cucumber', name: 'cucumber-guice', version: '4.3.1'
+
 
     testCompile("io.cucumber:cucumber-java:${cucumberVersion}")
     testCompile("io.cucumber:cucumber-junit:${cucumberVersion}")
