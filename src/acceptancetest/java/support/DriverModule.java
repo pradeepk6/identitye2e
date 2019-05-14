@@ -10,7 +10,7 @@ public class DriverModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        String browser = System.getProperty("browser");
+        String browser = System.getProperty("browser").toUpperCase();
         switch (browser) {
             case "CHROME":
                 bind(DriverManager.class).to(ChromeDriverManager.class).in(Scopes.SINGLETON);
